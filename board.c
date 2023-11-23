@@ -9,6 +9,7 @@
 
 #include "board.h"
 
+#define MAX_CHARNAME                 200
 //board_status macro 정의
 #define N_BOARD                      15
 //coin macro 정의
@@ -19,6 +20,10 @@
 #define PLAYERSTATUS_LIVE            0
 #define PLAYERSTATUS_DIE             1
 #define PLAYERSTATUS_END             2
+//shark macro 정의
+//--해당 값은 난이도와 관련-- 
+#define MAX_SHARKSTEP                6
+#define SHARK_INITPOS               -4  
 
 //=======변수 정의==========
 //static : 접근 제한 (extern으로 접근 불가, 오로지 제공 함수로만 접근 OK) 
@@ -36,10 +41,12 @@ int board_initBoard(void)
     
     for(i=0; i<N_BOARD; i++)
     {        
-             //ㅑ번째 요소 설정  
+             //i번째 요소 설정  
              board_status[i] = BOARDSTATUS_OK ;
              board_coin[i] = 0;
     }
+    
+    board_sharkPosition = SHARK_INITPOS;
     
     for(i=0; i<N_COINPOS; i++)
     {
@@ -84,8 +91,23 @@ int board_getBoardStatus(int pos)
 }
 //상어의 위치 출력  
 //int board_getSharkPosition(void);
+
 //상어 전진 명령  
-//int board_stepShark(void);
+int board_stepShark(void)
+{
+    int step = rand()%(MAX_SHARKSTEP + 1);
+    
+    int i;
+    for(i=board_sharkPosition; i<=board_sharkPosition+step; i++)
+    {
+       if (i >= 0 && i < N_BOARD)
+          board_status[i] = BOARDSTATUS_NOK;
+    }
+    //shark_position 값 갱신  
+    board_sharkPosition += step;
+    
+    return board_sharkPosition;
+}
 
 //동전 습득 명령  
 int board_getBoardCoin(int pos)
@@ -96,5 +118,7 @@ int board_getBoardCoin(int pos)
     board_coin[pos] = 0;
     return coin;
 }
+
+
 
 

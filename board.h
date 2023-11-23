@@ -4,6 +4,7 @@
 //
 //Created by Hyeri Park on 2023/11/21 - 2023//11/23
 //
+
 //==========prototyping================
 //Modeling the status
 #define BOARDSTATUS_OK                1 //ĭ OK 
